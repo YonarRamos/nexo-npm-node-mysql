@@ -1,1 +1,0 @@
-# nexo-npm-node-sqlite-mysql
