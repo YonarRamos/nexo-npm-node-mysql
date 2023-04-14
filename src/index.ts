@@ -1,6 +1,16 @@
-const knex = require('knex')
-
 let client:any;
+
+let user = "";
+let pwd = "";
+function setCredentials(_user, _password) {
+    user = _user;
+    pwd = _password;
+}
+
+let schema = "";
+function setSchema(_schema) {
+    schema = _schema;
+}
 
 let url = "";
 function setUrl(_url:any) {
@@ -17,43 +27,30 @@ function setOnFailure(callback:any) {
     onFailure = callback;
 };
 
-let connection:object
-function setConnection (values:object){
-    connection = values
-}
 
-let migrationsUrl:string
-function setMigrationsUrl (url:string){
-    migrationsUrl = url
-}
+function initialize() {
+    if (!url) throw new Error("host not defined")
+    if (!schema) throw new Error("database not defined")
+    if (!user || !pwd) throw new Error("credentials not defined")
 
-let seedsUrl:string
-function setSeedsUrl (url:string){
-    seedsUrl = url
-}
-
-function initialize(this: typeof client) {
-    if (!connection) throw new Error("connection not defined")
-
-    const config = {
-        client: 'sqlite3',
-        connection: {...connection},
-        migrations: { directory: migrationsUrl ?? '.db/migrations' },
-        seeds: { directory: seedsUrl ?? '.db/migrations' },
-        useNullAsDefault: true,
+    const options = {
+        client: 'mysql',
+        connection: {
+          host : url,
+          port : 3306,
+          user : user,
+          password : pwd,
+          database : schema
+        }
     }
     
-    this.client = knex(config)
-
-    this.client.client.config
-    ? onConnected?.()
-    : onFailure?.()
+    this.client = require('knex')(options)
 }
 
 module.exports = {
-    setConnection,
-    setMigrationsUrl,
-    setSeedsUrl,
+    url:setUrl,
+    schema:setSchema,
+    credentials:setCredentials, 
     onConnected: setOnConnected,
     onFailure: setOnFailure,
     initialize,

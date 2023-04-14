@@ -1,5 +1,5 @@
 {
-  "name": "nexo-npm-node-sqlite",
+  "name": "nexo-npm-node-mysql",
   "version": "1.0.17",
   "description": "nexo-node",
   "main": "dist/index.js",
@@ -12,8 +12,9 @@
   "license": "MIT",
   "dependencies": {
     "knex": "^2.4.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.2.1",
     "nexo-npm-node-logger": "git+https://otd.ibl-inetum.services/bitbucket/scm/nexo-npm/nexo-npm-node-logger.git",
-    "sqlite3": "^5.1.4",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },
